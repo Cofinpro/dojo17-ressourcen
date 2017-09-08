@@ -3,8 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <title>Ressourcenanfrage</title>
+    <script src="https://unpkg.com/vue"></script>
+    
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600|Roboto Mono' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Dosis:500&text=Vue.js' rel='stylesheet' type='text/css'>
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-<h1>Neue Anfrage!</h1>
+<h1>Neue Anfrage</h1>
+<form id="app">
+    <fieldset>
+        <legend>Basisdaten</legend>
+        
+        <table>
+            <tr><td><label for="requestTitle">Anfragetitel</label></td><td><input id="requestTitle" v-model="request.title" placeholder="Titel der Anfrage"></td></tr>
+            <tr><td><label for="customer">Kunde</label></td><td><input id="customer" v-model="request.customer" placeholder=""></td></tr>
+            <tr><td><label for="role">Rolle</label></td><td><input id="role" v-model="request.role" placeholder=""></td></tr>
+            <tr><td><label for="location">Einsatzort</label></td><td><input id="location" v-model="request.location" placeholder=""></td></tr>
+            <tr>
+                <td><label for="projectDescription">Kurze Beschreibung des Projekts (Welche Zielstellung verfolgt das Projekt bzw. der Einsatz?)</label></td>
+                <td><textarea id="projectDescription" v-model="request.projectDescription" placeholder=""></textarea></td>
+            </tr>            
+            <tr>
+                <td><label for="taskDescription">Aufgabenbeschreibung (Welche Schnittstellen liegen vor? Einordnung im Projekt)</label></td>
+                <td><textarea id="taskDescription" v-model="request.taskDescription" placeholder=""></textarea></td>
+            </tr>            
+            <tr>
+                <td><label for="requiredSkills">Notwendige Skills (idealerweise in absteigender Wichtigkeit)</label></td>
+                <td><textarea id="requiredSkills" v-model="request.requiredSkills" placeholder=""></textarea></td>
+            </tr>
+            <tr>
+                <td><label for="additionalSkills">Wünschenswerte Skills (idealerweise in absteigender Wichtigkeit)</label></td>
+                <td><textarea id="additionalSkills" v-model="request.additionalSkills" placeholder=""></textarea></td>
+            </tr>
+            <tr>
+                <td><label for="englishRequired">Englischkenntnisse zwingend</label></td>
+                <td><input type="checkbox" id="englishRequired" v-model="request.englishRequired"></td>
+            </tr>
+            <tr>
+                <td><label for="pitchDeadline">Angebotsabgabetermin</label></td>
+                <td><input type="date" id="pitchDeadline" v-model="request.pitchDeadline"></td>
+            </tr>            
+            <tr>
+                <td><label for="decisionDate">Entscheidungstermin</label></td>
+                <td><input type="date" id="decisionDate" v-model="request.decisionDate"></td>
+            </tr>
+            <tr>
+                <td><label for="probability">Auftragswahrscheinlichkeit</label></td>
+                <td>
+                    <select id="probability" v-model="request.probability">
+                        <option value="0.25">25%</option>
+                        <option value="0.50">50%</option>
+                        <option value="0.75">75%</option>
+                        <option value="0.80">80%</option>
+                        <option value="1">100%</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="runTimeStart">Laufzeit</label></td>
+                <td>von: <input type="date" id="runTimeStart" v-model="request.runTimeStart"> bis <input type="date" id="runTimeEnd" v-model="request.runTimeEnd"></td>
+            </tr>
+            <tr>
+                <td><label for="dayRate">Tagessatz</label></td>
+                <td>PT-Satz <input id="dayRate" v-model.number="request.dayRate" type="number" min="1"> &euro;</td>
+            </tr>
+            <tr>
+                <td><label for="extraConditions">Besonderheiten im Vertrag (Bsp. Mehraufwand, Reisezeit, o.ä.)</label></td>
+                <td><textarea id="extraConditions" v-model="request.extraConditions" placeholder=""></textarea></td>
+            </tr>
+            <tr>
+                <td><label for="workload">Auslastungsgrad</label></td>
+                <td><input id="workload" v-model.number="request.workload" type="number" min="20" max="100" step="20"> &percnt;</td>
+            </tr>
+            <tr>
+                <th colspan="2"><input type="submit" id="save" value="Speichern"></th>
+            </tr>
+        </table>
+    </fieldset>
+    <div>
+        
+    </div>
+</form>
+<script src="app.js"></script>
 </body>
 </html>
