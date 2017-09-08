@@ -11,6 +11,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import de.cofinpro.dojo.ressourcen.service.ResourceServiceClient;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window 
@@ -22,26 +23,34 @@ import com.vaadin.ui.VerticalLayout;
 @Theme("mytheme")
 public class MyUI extends UI {
 
+    private ResourceServiceClient resourceServiceClient = new ResourceServiceClient();
+
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         final VerticalLayout layout = new VerticalLayout();
-        
+
         final TextField name = new TextField();
         name.setCaption("Type your name here:");
 
         Button button = new Button("Click Me");
-        button.addClickListener( e -> {
-            layout.addComponent(new Label("Thanks " + name.getValue() 
+        button.addClickListener(e -> {
+            layout.addComponent(new Label("Thanks " + name.getValue()
                     + ", it works!"));
+            layout.addComponent(new Label("Current known requests: " + getRequestsPresentation()));
         });
-        
+
         layout.addComponents(name, button);
-        
+
         setContent(layout);
+    }
+
+    private String getRequestsPresentation() {
+        return resourceServiceClient.getAllResourceRequests().toString();
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
     }
+
 }
