@@ -1,4 +1,4 @@
-package de.cofinpro.dojo.ressourcen;
+package de.cofinpro.dojo.ressourcen.ui;
 
 import javax.servlet.annotation.WebServlet;
 

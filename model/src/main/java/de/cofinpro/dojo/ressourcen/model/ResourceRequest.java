@@ -1,6 +1,5 @@
 package de.cofinpro.dojo.ressourcen.model;
 
-import de.cofinpro.dojo.ressourcen.dao.DataObjectDao;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Id;
 
