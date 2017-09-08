@@ -3,6 +3,7 @@ package de.cofinpro.dojo.ressourcen.dao;
 import de.cofinpro.dojo.ressourcen.model.DataObject;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Key;
 import org.mongodb.morphia.query.Query;
 
 import javax.inject.Inject;
@@ -22,12 +23,12 @@ public class DataObjectDao {
         return query.asList();
     }
 
-    public <T extends DataObject> void create(T obj) {
-        datastore.save(obj);
+    public <T extends DataObject> Key<T> create(T obj) {
+        return datastore.save(obj);
     }
 
-    public <T extends DataObject> void update(T obj) {
-        datastore.save(obj);
+    public <T extends DataObject> Key<T> update(T obj) {
+        return datastore.save(obj);
     }
 
     public <T extends DataObject> void updateOrCreate(T obj) {
