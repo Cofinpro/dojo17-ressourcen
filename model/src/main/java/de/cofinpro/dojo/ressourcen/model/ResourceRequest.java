@@ -3,10 +3,7 @@ package de.cofinpro.dojo.ressourcen.model;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Id;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class ResourceRequest implements DataObject {
 
@@ -22,8 +19,8 @@ public class ResourceRequest implements DataObject {
     private String location;
     private String projectDescription;
     private String taskDescription;
-    private String[] requiredSkills;
-    private String[] additionalSkills;
+    private List<String> requiredSkills;
+    private List<String> additionalSkills;
     private Boolean englishRequired;
     private EnglishLevel englishLevelRequirements;
     private Date pitchDeadline;
@@ -34,7 +31,7 @@ public class ResourceRequest implements DataObject {
     private Double dayRate;
     private String extraConditions;
     private Integer workload;
-    private String[] candidates;
+    private List<String> candidates;
     private Boolean externalConsultants;
     private Boolean entryLevel;
     private String internalBackup;
@@ -52,8 +49,8 @@ public class ResourceRequest implements DataObject {
     private String externalLocation;
     private String externalProjectDescription;
     private String externalTaskDescription;
-    private String[] externalRequiredSkills;
-    private String[] externalAdditionalSkills;
+    private List<String> externalRequiredSkills;
+    private List<String> externalAdditionalSkills;
     private Boolean externalExtensionOption;
     private Integer externalProjectDuration;
     private String externalExtraConditions;
@@ -137,19 +134,19 @@ public class ResourceRequest implements DataObject {
         this.taskDescription = taskDescription;
     }
 
-    public String[] getRequiredSkills() {
+    public List<String> getRequiredSkills() {
         return requiredSkills;
     }
 
-    public void setRequiredSkills(String[] requiredSkills) {
+    public void setRequiredSkills(List<String> requiredSkills) {
         this.requiredSkills = requiredSkills;
     }
 
-    public String[] getAdditionalSkills() {
+    public List<String> getAdditionalSkills() {
         return additionalSkills;
     }
 
-    public void setAdditionalSkills(String[] additionalSkills) {
+    public void setAdditionalSkills(List<String> additionalSkills) {
         this.additionalSkills = additionalSkills;
     }
 
@@ -233,11 +230,11 @@ public class ResourceRequest implements DataObject {
         this.workload = workload;
     }
 
-    public String[] getCandidates() {
+    public List<String> getCandidates() {
         return candidates;
     }
 
-    public void setCandidates(String[] candidates) {
+    public void setCandidates(List<String> candidates) {
         this.candidates = candidates;
     }
 
@@ -369,19 +366,19 @@ public class ResourceRequest implements DataObject {
         this.externalTaskDescription = externalTaskDescription;
     }
 
-    public String[] getExternalRequiredSkills() {
+    public List<String> getExternalRequiredSkills() {
         return externalRequiredSkills;
     }
 
-    public void setExternalRequiredSkills(String[] externalRequiredSkills) {
+    public void setExternalRequiredSkills(List<String> externalRequiredSkills) {
         this.externalRequiredSkills = externalRequiredSkills;
     }
 
-    public String[] getExternalAdditionalSkills() {
+    public List<String> getExternalAdditionalSkills() {
         return externalAdditionalSkills;
     }
 
-    public void setExternalAdditionalSkills(String[] externalAdditionalSkills) {
+    public void setExternalAdditionalSkills(List<String> externalAdditionalSkills) {
         this.externalAdditionalSkills = externalAdditionalSkills;
     }
 
@@ -414,39 +411,85 @@ public class ResourceRequest implements DataObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ResourceRequest that = (ResourceRequest) o;
+        ResourceRequest request = (ResourceRequest) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (title != null ? !title.equals(that.title) : that.title != null) return false;
-        if (customerName != null ? !customerName.equals(that.customerName) : that.customerName != null) return false;
-        if (projectName != null ? !projectName.equals(that.projectName) : that.projectName != null) return false;
-        if (!Objects.equals(roleName, that.roleName)) return false;
-        if (location != null ? !location.equals(that.location) : that.location != null) return false;
-        if (projectDescription != null ? !projectDescription.equals(that.projectDescription) : that.projectDescription != null)
+        if (id != null ? !id.equals(request.id) : request.id != null) return false;
+        if (status != request.status) return false;
+        if (title != null ? !title.equals(request.title) : request.title != null) return false;
+        if (customerName != null ? !customerName.equals(request.customerName) : request.customerName != null)
             return false;
-        if (taskDescription != null ? !taskDescription.equals(that.taskDescription) : that.taskDescription != null)
+        if (projectName != null ? !projectName.equals(request.projectName) : request.projectName != null) return false;
+        if (roleName != null ? !roleName.equals(request.roleName) : request.roleName != null) return false;
+        if (location != null ? !location.equals(request.location) : request.location != null) return false;
+        if (projectDescription != null ? !projectDescription.equals(request.projectDescription) : request.projectDescription != null)
             return false;
-        // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        if (!Arrays.equals(requiredSkills, that.requiredSkills)) return false;
-        // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        if (!Arrays.equals(additionalSkills, that.additionalSkills)) return false;
-        if (englishRequired != null ? !englishRequired.equals(that.englishRequired) : that.englishRequired != null)
+        if (taskDescription != null ? !taskDescription.equals(request.taskDescription) : request.taskDescription != null)
             return false;
-        if (pitchDeadline != null ? !pitchDeadline.equals(that.pitchDeadline) : that.pitchDeadline != null)
+        if (requiredSkills != null ? !requiredSkills.equals(request.requiredSkills) : request.requiredSkills != null)
             return false;
-        if (decisionDate != null ? !decisionDate.equals(that.decisionDate) : that.decisionDate != null) return false;
-        if (probability != null ? !probability.equals(that.probability) : that.probability != null) return false;
-        if (runTimeStart != null ? !runTimeStart.equals(that.runTimeStart) : that.runTimeStart != null) return false;
-        if (runTimeEnd != null ? !runTimeEnd.equals(that.runTimeEnd) : that.runTimeEnd != null) return false;
-        if (dayRate != null ? !dayRate.equals(that.dayRate) : that.dayRate != null) return false;
-        // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        if (!Objects.equals(extraConditions, that.extraConditions)) return false;
-        return workload != null ? workload.equals(that.workload) : that.workload == null;
+        if (additionalSkills != null ? !additionalSkills.equals(request.additionalSkills) : request.additionalSkills != null)
+            return false;
+        if (englishRequired != null ? !englishRequired.equals(request.englishRequired) : request.englishRequired != null)
+            return false;
+        if (englishLevelRequirements != request.englishLevelRequirements) return false;
+        if (pitchDeadline != null ? !pitchDeadline.equals(request.pitchDeadline) : request.pitchDeadline != null)
+            return false;
+        if (decisionDate != null ? !decisionDate.equals(request.decisionDate) : request.decisionDate != null)
+            return false;
+        if (probability != null ? !probability.equals(request.probability) : request.probability != null) return false;
+        if (runTimeStart != null ? !runTimeStart.equals(request.runTimeStart) : request.runTimeStart != null)
+            return false;
+        if (runTimeEnd != null ? !runTimeEnd.equals(request.runTimeEnd) : request.runTimeEnd != null) return false;
+        if (dayRate != null ? !dayRate.equals(request.dayRate) : request.dayRate != null) return false;
+        if (extraConditions != null ? !extraConditions.equals(request.extraConditions) : request.extraConditions != null)
+            return false;
+        if (workload != null ? !workload.equals(request.workload) : request.workload != null) return false;
+        if (candidates != null ? !candidates.equals(request.candidates) : request.candidates != null) return false;
+        if (externalConsultants != null ? !externalConsultants.equals(request.externalConsultants) : request.externalConsultants != null)
+            return false;
+        if (entryLevel != null ? !entryLevel.equals(request.entryLevel) : request.entryLevel != null) return false;
+        if (internalBackup != null ? !internalBackup.equals(request.internalBackup) : request.internalBackup != null)
+            return false;
+        if (competition != null ? !competition.equals(request.competition) : request.competition != null) return false;
+        if (followUpBusiness != null ? !followUpBusiness.equals(request.followUpBusiness) : request.followUpBusiness != null)
+            return false;
+        if (positioningCustomer != null ? !positioningCustomer.equals(request.positioningCustomer) : request.positioningCustomer != null)
+            return false;
+        if (positioningCustomerReason != null ? !positioningCustomerReason.equals(request.positioningCustomerReason) : request.positioningCustomerReason != null)
+            return false;
+        if (crossSellingPotential != null ? !crossSellingPotential.equals(request.crossSellingPotential) : request.crossSellingPotential != null)
+            return false;
+        if (crossSellingPotentialReason != null ? !crossSellingPotentialReason.equals(request.crossSellingPotentialReason) : request.crossSellingPotentialReason != null)
+            return false;
+        if (profileSyncContact != null ? !profileSyncContact.equals(request.profileSyncContact) : request.profileSyncContact != null)
+            return false;
+        if (externalContact != null ? !externalContact.equals(request.externalContact) : request.externalContact != null)
+            return false;
+        if (customerType != null ? !customerType.equals(request.customerType) : request.customerType != null)
+            return false;
+        if (externalRole != null ? !externalRole.equals(request.externalRole) : request.externalRole != null)
+            return false;
+        if (externalLocation != null ? !externalLocation.equals(request.externalLocation) : request.externalLocation != null)
+            return false;
+        if (externalProjectDescription != null ? !externalProjectDescription.equals(request.externalProjectDescription) : request.externalProjectDescription != null)
+            return false;
+        if (externalTaskDescription != null ? !externalTaskDescription.equals(request.externalTaskDescription) : request.externalTaskDescription != null)
+            return false;
+        if (externalRequiredSkills != null ? !externalRequiredSkills.equals(request.externalRequiredSkills) : request.externalRequiredSkills != null)
+            return false;
+        if (externalAdditionalSkills != null ? !externalAdditionalSkills.equals(request.externalAdditionalSkills) : request.externalAdditionalSkills != null)
+            return false;
+        if (externalExtensionOption != null ? !externalExtensionOption.equals(request.externalExtensionOption) : request.externalExtensionOption != null)
+            return false;
+        if (externalProjectDuration != null ? !externalProjectDuration.equals(request.externalProjectDuration) : request.externalProjectDuration != null)
+            return false;
+        return externalExtraConditions != null ? externalExtraConditions.equals(request.externalExtraConditions) : request.externalExtraConditions == null;
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (customerName != null ? customerName.hashCode() : 0);
         result = 31 * result + (projectName != null ? projectName.hashCode() : 0);
@@ -454,17 +497,40 @@ public class ResourceRequest implements DataObject {
         result = 31 * result + (location != null ? location.hashCode() : 0);
         result = 31 * result + (projectDescription != null ? projectDescription.hashCode() : 0);
         result = 31 * result + (taskDescription != null ? taskDescription.hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(requiredSkills);
-        result = 31 * result + Arrays.hashCode(additionalSkills);
+        result = 31 * result + (requiredSkills != null ? requiredSkills.hashCode() : 0);
+        result = 31 * result + (additionalSkills != null ? additionalSkills.hashCode() : 0);
         result = 31 * result + (englishRequired != null ? englishRequired.hashCode() : 0);
+        result = 31 * result + (englishLevelRequirements != null ? englishLevelRequirements.hashCode() : 0);
         result = 31 * result + (pitchDeadline != null ? pitchDeadline.hashCode() : 0);
         result = 31 * result + (decisionDate != null ? decisionDate.hashCode() : 0);
         result = 31 * result + (probability != null ? probability.hashCode() : 0);
         result = 31 * result + (runTimeStart != null ? runTimeStart.hashCode() : 0);
         result = 31 * result + (runTimeEnd != null ? runTimeEnd.hashCode() : 0);
         result = 31 * result + (dayRate != null ? dayRate.hashCode() : 0);
-        result = 31 * result + Objects.hashCode(extraConditions);
+        result = 31 * result + (extraConditions != null ? extraConditions.hashCode() : 0);
         result = 31 * result + (workload != null ? workload.hashCode() : 0);
+        result = 31 * result + (candidates != null ? candidates.hashCode() : 0);
+        result = 31 * result + (externalConsultants != null ? externalConsultants.hashCode() : 0);
+        result = 31 * result + (entryLevel != null ? entryLevel.hashCode() : 0);
+        result = 31 * result + (internalBackup != null ? internalBackup.hashCode() : 0);
+        result = 31 * result + (competition != null ? competition.hashCode() : 0);
+        result = 31 * result + (followUpBusiness != null ? followUpBusiness.hashCode() : 0);
+        result = 31 * result + (positioningCustomer != null ? positioningCustomer.hashCode() : 0);
+        result = 31 * result + (positioningCustomerReason != null ? positioningCustomerReason.hashCode() : 0);
+        result = 31 * result + (crossSellingPotential != null ? crossSellingPotential.hashCode() : 0);
+        result = 31 * result + (crossSellingPotentialReason != null ? crossSellingPotentialReason.hashCode() : 0);
+        result = 31 * result + (profileSyncContact != null ? profileSyncContact.hashCode() : 0);
+        result = 31 * result + (externalContact != null ? externalContact.hashCode() : 0);
+        result = 31 * result + (customerType != null ? customerType.hashCode() : 0);
+        result = 31 * result + (externalRole != null ? externalRole.hashCode() : 0);
+        result = 31 * result + (externalLocation != null ? externalLocation.hashCode() : 0);
+        result = 31 * result + (externalProjectDescription != null ? externalProjectDescription.hashCode() : 0);
+        result = 31 * result + (externalTaskDescription != null ? externalTaskDescription.hashCode() : 0);
+        result = 31 * result + (externalRequiredSkills != null ? externalRequiredSkills.hashCode() : 0);
+        result = 31 * result + (externalAdditionalSkills != null ? externalAdditionalSkills.hashCode() : 0);
+        result = 31 * result + (externalExtensionOption != null ? externalExtensionOption.hashCode() : 0);
+        result = 31 * result + (externalProjectDuration != null ? externalProjectDuration.hashCode() : 0);
+        result = 31 * result + (externalExtraConditions != null ? externalExtraConditions.hashCode() : 0);
         return result;
     }
 }

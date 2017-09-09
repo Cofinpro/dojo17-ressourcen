@@ -138,7 +138,7 @@ var app = new Vue({
     publish: function(event) {
         event.preventDefault();
         
-        var postRequest = this.request;
+        var postRequest = JSON.parse(JSON.stringify(this.request));
         
         postRequest["requiredSkills"] = flattenList(postRequest["requiredSkills"]);
         postRequest["additionalSkills"] = flattenList(postRequest["additionalSkills"]);
@@ -147,7 +147,7 @@ var app = new Vue({
         postRequest["externalAdditionalSkills"] = flattenList(postRequest["externalAdditionalSkills"]);
         postRequest["status"] = "OPEN";
         
-        axios.post('http://localhost:8080/resources-service/resources/requests/create', this.request)
+        axios.post('http://localhost:8080/resources-service/resources/requests/create', postRequest)
             .then(response => {})
             .catch(e => {
               alert(e);
