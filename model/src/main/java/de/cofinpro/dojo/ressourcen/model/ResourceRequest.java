@@ -4,6 +4,7 @@ import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Id;
 
 import java.util.Date;
+import java.util.Map;
 
 public class ResourceRequest implements DataObject {
 
@@ -13,21 +14,45 @@ public class ResourceRequest implements DataObject {
     private String title;
     private String customerName;
     private String projectName;
-    private CustomerRole role;
+    private String roleName;
     private String location;
     private String projectDescription;
     private String taskDescription;
     private String[] requiredSkills;
     private String[] additionalSkills;
     private Boolean englishRequired;
+    private EnglishLevel englishLevelRequirements;
     private Date pitchDeadline;
     private Date decisionDate;
-    private Double propability;
+    private Double probability;
     private Date runTimeStart;
     private Date runTimeEnd;
     private Double dayRate;
     private String[] extraConditions;
     private Integer workload;
+    private String[] candidates;
+    private Boolean externalConsultants;
+    private Boolean entryLevel;
+    private String internalBackup;
+    private Map<String, String> competition;
+    private String followUpBusiness;
+    private Integer positioningCustomer;
+    private String positioningCustomerReason;
+    private Integer crossSellingPotential;
+    private String crossSellingPotentialReason;
+    private String profileSyncContact;
+    private String externalContact;
+    
+    private String customerType;
+    private String externalRole;
+    private String externalLocation;
+    private String externalProjectDescription;
+    private String externalTaskDescription;
+    private String[] externalRequiredSkills;
+    private String[] externalAdditionalSkills;
+    private Boolean externalExtensionOption;
+    private Integer externalProjectDuration;
+    private String externalExtraConditions;
 
     @Override
     public String getId() {
@@ -76,12 +101,12 @@ public class ResourceRequest implements DataObject {
         this.location = location;
     }
 
-    public CustomerRole getRole() {
-        return role;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRole(CustomerRole role) {
-        this.role = role;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     public String getProjectDescription() {
@@ -124,6 +149,14 @@ public class ResourceRequest implements DataObject {
         this.englishRequired = englishRequired;
     }
 
+    public EnglishLevel getEnglishLevelRequirements() {
+        return englishLevelRequirements;
+    }
+
+    public void setEnglishLevelRequirements(EnglishLevel englishLevelRequirements) {
+        this.englishLevelRequirements = englishLevelRequirements;
+    }
+
     public Date getPitchDeadline() {
         return pitchDeadline;
     }
@@ -140,12 +173,12 @@ public class ResourceRequest implements DataObject {
         this.decisionDate = decisionDate;
     }
 
-    public Double getPropability() {
-        return propability;
+    public Double getProbability() {
+        return probability;
     }
 
-    public void setPropability(Double propability) {
-        this.propability = propability;
+    public void setProbability(Double probability) {
+        this.probability = probability;
     }
 
     public Date getRunTimeStart() {
@@ -186,6 +219,182 @@ public class ResourceRequest implements DataObject {
 
     public void setWorkload(Integer workload) {
         this.workload = workload;
+    }
+
+    public String[] getCandidates() {
+        return candidates;
+    }
+
+    public void setCandidates(String[] candidates) {
+        this.candidates = candidates;
+    }
+
+    public Boolean getExternalConsultants() {
+        return externalConsultants;
+    }
+
+    public void setExternalConsultants(Boolean externalConsultants) {
+        this.externalConsultants = externalConsultants;
+    }
+
+    public Boolean getEntryLevel() {
+        return entryLevel;
+    }
+
+    public void setEntryLevel(Boolean entryLevel) {
+        this.entryLevel = entryLevel;
+    }
+
+    public String getInternalBackup() {
+        return internalBackup;
+    }
+
+    public void setInternalBackup(String internalBackup) {
+        this.internalBackup = internalBackup;
+    }
+
+    public Map<String, String> getCompetition() {
+        return competition;
+    }
+
+    public void setCompetition(Map<String, String> competition) {
+        this.competition = competition;
+    }
+
+    public String getFollowUpBusiness() {
+        return followUpBusiness;
+    }
+
+    public void setFollowUpBusiness(String followUpBusiness) {
+        this.followUpBusiness = followUpBusiness;
+    }
+
+    public Integer getPositioningCustomer() {
+        return positioningCustomer;
+    }
+
+    public void setPositioningCustomer(Integer positioningCustomer) {
+        this.positioningCustomer = positioningCustomer;
+    }
+
+    public String getPositioningCustomerReason() {
+        return positioningCustomerReason;
+    }
+
+    public void setPositioningCustomerReason(String positioningCustomerReason) {
+        this.positioningCustomerReason = positioningCustomerReason;
+    }
+
+    public Integer getCrossSellingPotential() {
+        return crossSellingPotential;
+    }
+
+    public void setCrossSellingPotential(Integer crossSellingPotential) {
+        this.crossSellingPotential = crossSellingPotential;
+    }
+
+    public String getCrossSellingPotentialReason() {
+        return crossSellingPotentialReason;
+    }
+
+    public void setCrossSellingPotentialReason(String crossSellingPotentialReason) {
+        this.crossSellingPotentialReason = crossSellingPotentialReason;
+    }
+
+    public String getProfileSyncContact() {
+        return profileSyncContact;
+    }
+
+    public void setProfileSyncContact(String profileSyncContact) {
+        this.profileSyncContact = profileSyncContact;
+    }
+
+    public String getExternalContact() {
+        return externalContact;
+    }
+
+    public void setExternalContact(String externalContact) {
+        this.externalContact = externalContact;
+    }
+
+    public String getCustomerType() {
+        return customerType;
+    }
+
+    public void setCustomerType(String customerType) {
+        this.customerType = customerType;
+    }
+
+    public String getExternalRole() {
+        return externalRole;
+    }
+
+    public void setExternalRole(String externalRole) {
+        this.externalRole = externalRole;
+    }
+
+    public String getExternalLocation() {
+        return externalLocation;
+    }
+
+    public void setExternalLocation(String externalLocation) {
+        this.externalLocation = externalLocation;
+    }
+
+    public String getExternalProjectDescription() {
+        return externalProjectDescription;
+    }
+
+    public void setExternalProjectDescription(String externalProjectDescription) {
+        this.externalProjectDescription = externalProjectDescription;
+    }
+
+    public String getExternalTaskDescription() {
+        return externalTaskDescription;
+    }
+
+    public void setExternalTaskDescription(String externalTaskDescription) {
+        this.externalTaskDescription = externalTaskDescription;
+    }
+
+    public String[] getExternalRequiredSkills() {
+        return externalRequiredSkills;
+    }
+
+    public void setExternalRequiredSkills(String[] externalRequiredSkills) {
+        this.externalRequiredSkills = externalRequiredSkills;
+    }
+
+    public String[] getExternalAdditionalSkills() {
+        return externalAdditionalSkills;
+    }
+
+    public void setExternalAdditionalSkills(String[] externalAdditionalSkills) {
+        this.externalAdditionalSkills = externalAdditionalSkills;
+    }
+
+    public Boolean getExternalExtensionOption() {
+        return externalExtensionOption;
+    }
+
+    public void setExternalExtensionOption(Boolean externalExtensionOption) {
+        this.externalExtensionOption = externalExtensionOption;
+    }
+
+    public Integer getExternalProjectDuration() {
+        return externalProjectDuration;
+    }
+
+    public void setExternalProjectDuration(Integer externalProjectDuration) {
+        this.externalProjectDuration = externalProjectDuration;
+    }
+
+    public String getExternalExtraConditions() {
+        return externalExtraConditions;
+    }
+
+    public void setExternalExtraConditions(String externalExtraConditions) {
+        this.externalExtraConditions = externalExtraConditions;
     }
 
     @Override

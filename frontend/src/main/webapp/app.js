@@ -60,54 +60,78 @@ Vue.component('map-inputs', {
   }
 });
 
+var newRequest = {
+     title: "",
+     customerName: "",
+     projectName: "",
+     roleName: "",
+     location: "",
+     projectDescription: "",
+     taskDescription: "",
+     requiredSkills: [{value: ""}],
+     additionalSkills: [{value: ""}],
+     englishRequired: false,
+     englishLevelRequirements: "",
+     pitchDeadline: "",
+     decisionDate: "",
+     probability: "",
+     runTimeStart: "",
+     runTimeEnd: "",
+     dayRate: 500,
+     extraConditions: "",
+     workload: 20,
+     candidates: [{value: ""}],
+     externalConsultants: false,
+     entryLevel: false,
+     internalBackup: "",
+     competition: [
+         { key: "", value: "" }
+     ],
+     followUpBusiness: "",
+     positioningCustomer: 3,
+     positioningCustomerReason: "",
+     crossSellingPotential: 3,
+     crossSellingPotentialReason: "",
+     profileSyncContact: "",
+     externalContact: "",
+     customerType: "",
+     externalRole: "",
+     externalLocation: "",
+     externalProjectDescription: "",
+     externalTaskDescription: "",
+     externalRequiredSkills: [{value: ""}],
+     externalAdditionalSkills: [{value: ""}],
+     externalExtensionOption: false,
+     externalProjectDuration: 8,
+     externalExtraConditions: "",
+};
+var viewRequest = newRequest;
+var localRequestJson = localStorage.getItem("request");
+if (localRequestJson != null) {
+    var localRequest = JSON.parse(localRequestJson || '[]');
+    viewRequest = localRequest;
+}
+
 var app = new Vue({
   el: '#app',
   data: {
-    request: {
-        title: "",
-        customer: "",
-        project: "",
-        role: "",
-        location: "",
-        projectDescription: "",
-        taskDescription: "",
-        requiredSkills: [{value: ""}],
-        additionalSkills: [{value: ""}],
-        englishRequired: false,
-        englishLevelRequirements: "",
-        pitchDeadline: "",
-        decisionDate: "",
-        probability: "",
-        runTimeStart: "",
-        runTimeEnd: "",
-        dayRate: 500,
-        extraConditions: "",
-        workload: 20,
-        candidates: [{value: ""}],
-        externalConsultants: false,
-        entryLevel: false,
-        internalBackup: "",
-        competition: [
-            { key: "", value: "" }
-        ],
-        followUpBusiness: "",
-        positioningCustomer: 3,
-        positioningCustomerReason: "",
-        crossSellingPotential: 3,
-        crossSellingPotentialReason: "",
-        profileSyncContact: "",
-        externalContact: "",
-        customerType: "",
-        externalRole: "",
-        externalLocation: "",
-        externalProjectDescription: "",
-        externalTaskDescription: "",
-        externalRequiredSkills: [{value: ""}],
-        externalAdditionalSkills: [{value: ""}],
-        externalExtensionOption: false,
-        externalProjectDuration: 8,
-        externalExtraConditions: "",
-    },
+    request: viewRequest,
     message: 'Hello Vue!'
+  },
+  methods: {
+    save : function (event) {
+        event.preventDefault();
+        if (localStorage) {
+            localStorage.setItem("request", JSON.stringify(this.request));
+        }
+    },
+    publish: function(event) {
+        event.preventDefault();
+        axios.post('http://localhost:8080/resources-service/resources/requests/create', this.request)
+            .then(response => {})
+            .catch(e => {
+              alert(e);
+            })
+    }
   }
 });

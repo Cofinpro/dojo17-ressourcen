@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Ressourcenanfrage</title>
-    <script src="https://unpkg.com/vue"></script>
     <link rel="stylesheet" href="css/pure-min.css">
     <link rel="stylesheet" href="css/index.css">
 
@@ -21,15 +20,15 @@
         </div>
         <div class="pure-control-group">
             <label for="customer">Kunde</label>
-            <input id="customer" v-model="request.customer" placeholder="Name des Kunden">
+            <input id="customer" v-model="request.customerName" placeholder="Name des Kunden">
         </div>
         <div class="pure-control-group">
             <label for="project">Projekt</label>
-            <input id="project" v-model="request.project" placeholder="Name des Projekts">
+            <input id="project" v-model="request.projectName" placeholder="Name des Projekts">
         </div>
         <div class="pure-control-group">
             <label for="role">Rolle</label>
-            <input id="role" v-model="request.role" placeholder="Rolle innerhalb des Projekts">
+            <input id="role" v-model="request.roleName" placeholder="Rolle innerhalb des Projekts">
         </div>
 
         <div class="pure-control-group">
@@ -299,10 +298,13 @@
         </fieldset>
         
         <div class="pure-controls">
-            <input type="button" id="save" class="pure-button pure-button-primary" value="Speichern">
+            <button class="pure-button pure-button-primary" v-on:click="save">Speichern</button>
+            <button class="pure-button pure-button-primary" v-on:click="publish">Veröffentlichen</button>
         </div>
     </fieldset>
 </form>
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
