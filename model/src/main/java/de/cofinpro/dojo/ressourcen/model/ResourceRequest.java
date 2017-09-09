@@ -12,6 +12,8 @@ public class ResourceRequest implements DataObject {
 
     @Id
     private ObjectId id;
+    
+    private RequestStatus status = RequestStatus.DRAFT;
 
     private String title;
     private String customerName;
@@ -69,6 +71,14 @@ public class ResourceRequest implements DataObject {
             this.id = new ObjectId(id);
         }
         id = null;
+    }
+
+    public RequestStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(RequestStatus status) {
+        this.status = status;
     }
 
     public String getTitle() {

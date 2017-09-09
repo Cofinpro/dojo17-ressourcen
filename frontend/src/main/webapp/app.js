@@ -62,6 +62,7 @@ Vue.component('map-inputs', {
 
 var newRequest = {
      title: "",
+     status: "DRAFT",
      customerName: "",
      projectName: "",
      roleName: "",
@@ -112,6 +113,15 @@ if (localRequestJson != null) {
     viewRequest = localRequest;
 }
 
+function flattenList(valueList) {
+    var result = [];
+    for (var i = 0; i < valueList.length; i++) {
+        var v = valueList[i];
+        result[i] = v["value"];
+    }
+    return result;
+}
+
 var app = new Vue({
   el: '#app',
   data: {
@@ -127,11 +137,21 @@ var app = new Vue({
     },
     publish: function(event) {
         event.preventDefault();
+        
+        var postRequest = this.request;
+        
+        postRequest["requiredSkills"] = flattenList(postRequest["requiredSkills"]);
+        postRequest["additionalSkills"] = flattenList(postRequest["additionalSkills"]);
+        postRequest["candidates"] = flattenList(postRequest["candidates"]);
+        postRequest["externalRequiredSkills"] = flattenList(postRequest["externalRequiredSkills"]);
+        postRequest["externalAdditionalSkills"] = flattenList(postRequest["externalAdditionalSkills"]);
+        postRequest["status"] = "OPEN";
+        
         axios.post('http://localhost:8080/resources-service/resources/requests/create', this.request)
             .then(response => {})
             .catch(e => {
               alert(e);
-            })
+            });
     }
   }
 });
