@@ -32,7 +32,7 @@ public class ResourceRequest implements DataObject {
     private Date runTimeStart;
     private Date runTimeEnd;
     private Double dayRate;
-    private String[] extraConditions;
+    private String extraConditions;
     private Integer workload;
     private String[] candidates;
     private Boolean externalConsultants;
@@ -217,11 +217,11 @@ public class ResourceRequest implements DataObject {
         this.dayRate = dayRate;
     }
 
-    public String[] getExtraConditions() {
+    public String getExtraConditions() {
         return extraConditions;
     }
 
-    public void setExtraConditions(String[] extraConditions) {
+    public void setExtraConditions(String extraConditions) {
         this.extraConditions = extraConditions;
     }
 
@@ -440,7 +440,7 @@ public class ResourceRequest implements DataObject {
         if (runTimeEnd != null ? !runTimeEnd.equals(that.runTimeEnd) : that.runTimeEnd != null) return false;
         if (dayRate != null ? !dayRate.equals(that.dayRate) : that.dayRate != null) return false;
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        if (!Arrays.equals(extraConditions, that.extraConditions)) return false;
+        if (!Objects.equals(extraConditions, that.extraConditions)) return false;
         return workload != null ? workload.equals(that.workload) : that.workload == null;
     }
 
@@ -463,7 +463,7 @@ public class ResourceRequest implements DataObject {
         result = 31 * result + (runTimeStart != null ? runTimeStart.hashCode() : 0);
         result = 31 * result + (runTimeEnd != null ? runTimeEnd.hashCode() : 0);
         result = 31 * result + (dayRate != null ? dayRate.hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(extraConditions);
+        result = 31 * result + Objects.hashCode(extraConditions);
         result = 31 * result + (workload != null ? workload.hashCode() : 0);
         return result;
     }
