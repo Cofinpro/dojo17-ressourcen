@@ -17,6 +17,7 @@ public class DatabaseProducer {
     @Produces
     public Morphia produceMorphia() {
         Morphia morphia = new Morphia();
+        LOG.info("produceMorphia() invoked");
         morphia.mapPackage("de.cofinpro.dojo.ressourcen.model");
         return morphia;
     }
@@ -32,6 +33,7 @@ public class DatabaseProducer {
         Datastore datastore = morphia.createDatastore(mongoClient, "RESMAN");
         datastore.ensureCaps();
         morphia.map();
+        LOG.info("datastore produced");
         try {
             datastore.ensureIndexes();
         } catch (Exception e) {
