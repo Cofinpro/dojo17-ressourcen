@@ -42,6 +42,7 @@ class CRUDMask extends VerticalLayout implements PropertyChangeListener {
 
     private Button btCreateNew;
     private Button btUpdateExisting;
+    private Button btDeleteExisting;
 
     private DecimalFormat df = new DecimalFormat("#.00");;
 
@@ -77,7 +78,9 @@ class CRUDMask extends VerticalLayout implements PropertyChangeListener {
         btCreateNew.addClickListener(clickEvent -> {onCreateNew();});
 
         btUpdateExisting = new Button("Aktualisiere vorhandenen Request");
+        btDeleteExisting = new Button("Lösche Request");
         btUpdateExisting.addClickListener(clickEvent -> {onUpdateExisting();});
+        btDeleteExisting.addClickListener(clickEvent -> {onDeleteExisting();});
 
         bind();
     }
@@ -231,9 +234,26 @@ class CRUDMask extends VerticalLayout implements PropertyChangeListener {
         }
     }
 
+    private void onDeleteExisting() {
+        ResourceRequest selected = model.getCurrentlySelectedResourceRequest();
+        if (selected != null) {
+            resourceServiceClient.deleteExistingRequest(selected);
+            Notification.show("Gelöscht",
+                    "Der Request mit dem Titel " + selected.getTitle() + " wurde erfolgreich gelöscht :" + selected,
+                    Notification.Type.HUMANIZED_MESSAGE);
+            model.setCurrentlySelectedResourceRequest(null); //prepare for new one
+        }
+        else {
+            Notification.show("Fehler beim Speichern",
+                    "Der Request konnte NICHT gelöscht werden.",
+                    Notification.Type.WARNING_MESSAGE);
+        }
+    }
+
     private void showWidgets() {
         addComponent(btCreateNew);
         addComponent(btUpdateExisting);
+        addComponent(btDeleteExisting);
         addComponent(tfTitel);
         addComponent(cbStatus);
         addComponent(tfCustomerName);

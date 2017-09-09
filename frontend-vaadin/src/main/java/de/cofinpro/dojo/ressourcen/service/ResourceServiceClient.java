@@ -59,4 +59,10 @@ public class ResourceServiceClient {
         response.close();  // You should close connections!
         return getResourceRequestById(updatedKey);
     }
+
+    public void deleteExistingRequest(ResourceRequest resourceRequest) {
+        String id = resourceRequest.getId();
+        Response response = baseTarget.path("requests").path(id).request().delete();
+        response.close();  // You should close connections!
+    }
 }
