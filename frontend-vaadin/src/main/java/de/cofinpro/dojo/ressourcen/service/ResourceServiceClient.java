@@ -4,8 +4,10 @@ import de.cofinpro.dojo.ressourcen.model.ResourceRequest;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
@@ -32,5 +34,18 @@ public class ResourceServiceClient {
         List<ResourceRequest> value = response.readEntity(genericType);
         response.close();  // You should close connections!
         return value;
+    }
+
+    public ResourceRequest getResourceRequestById(String id) {
+        Response response = baseTarget.path("requests").path(id).request().get();
+        return response.readEntity(ResourceRequest.class);
+    }
+
+    public ResourceRequest createNewRequest(ResourceRequest resourceRequest) {
+        //"/requests/create"
+        Response response = baseTarget.path("requests").path("create").request().post(Entity.entity(resourceRequest, MediaType.APPLICATION_JSON));
+        String key = response.readEntity(String.class);
+        response.close();  // You should close connections!
+        return getResourceRequestById(key);
     }
 }

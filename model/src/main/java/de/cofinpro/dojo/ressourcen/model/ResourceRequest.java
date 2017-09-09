@@ -12,11 +12,17 @@ public class ResourceRequest implements DataObject{
 
     @Override
     public String getId() {
-        return id.toString();
+        if (id != null) {
+            return String.valueOf(id);
+        }
+        return null;
     }
 
     public void setId(String id) {
-        this.id = new ObjectId(id);
+        if (id != null) {
+            this.id = new ObjectId(id);
+        }
+        id = null;
     }
 
     @Override

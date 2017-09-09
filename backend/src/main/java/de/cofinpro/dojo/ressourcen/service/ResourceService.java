@@ -8,12 +8,15 @@ import org.mongodb.morphia.Key;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Path("/resources")
 @Produces("application/json")
 @Consumes("application/json")
 public class ResourceService {
-    
+
+    private static final Logger LOG = Logger.getLogger(ResourceService.class.getName());
+
     @Inject
     private DataObjectDao dataObjectDao;
     
@@ -22,14 +25,32 @@ public class ResourceService {
     public List<ResourceRequest> getAllRequests() {
         return dataObjectDao.findAll(ResourceRequest.class);
     }
-    
-    @PUT
-    @Path("/requests/create/{title}")
-    public String createResourceRequest(@PathParam("title") String title) {
-        ResourceRequest request = new ResourceRequest();
-        request.setTitle(title);
-        Key<ResourceRequest> createdKey = dataObjectDao.create(request);
+
+    @GET
+    @Path("/requests/{id}")
+    public ResourceRequest getRequestById(@PathParam("id") String id) {
+        return dataObjectDao.findById(ResourceRequest.class, new ObjectId(id));
+    }
+
+    @POST
+    @Path("/requests/create")
+    public String createResourceRequest(ResourceRequest resourceRequest) {
+        Key<ResourceRequest> createdKey = dataObjectDao.create(resourceRequest);
+        LOG.info("Created RR: " + resourceRequest);
         return String.valueOf(createdKey.getId());
+    }
+
+    @PUT
+    @Path("/requests/{id}")
+    public String updateResourceRequest(@PathParam("id") String id, ResourceRequest resourceRequest) {
+        ResourceRequest existingRR = dataObjectDao.findById(ResourceRequest.class, new ObjectId(id));
+        if (existingRR == null) {
+            throw new IllegalStateException("Cannot update nonexisting RR");
+        }
+        else {
+            Key<ResourceRequest> updatedKey = dataObjectDao.update(resourceRequest);
+            return String.valueOf(updatedKey.getId());
+        }
     }
 
     @GET

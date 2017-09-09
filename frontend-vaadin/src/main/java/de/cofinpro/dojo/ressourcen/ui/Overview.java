@@ -11,9 +11,7 @@ import de.cofinpro.dojo.ressourcen.model.ResourceRequest;
 import de.cofinpro.dojo.ressourcen.service.ResourceServiceClient;
 
 import java.beans.PropertyChangeSupport;
-import java.util.Iterator;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 class Overview extends VerticalLayout {
 
@@ -22,11 +20,13 @@ class Overview extends VerticalLayout {
     private GlobalViewModel model;
     private ListDataProvider<ResourceRequest> listDataProvider;
     private Button btReload;
-
+    private List<ResourceRequest> allResourceRequests;
 
     Overview(ResourceServiceClient resourceServiceClient, GlobalViewModel model) {
         this.resourceServiceClient = resourceServiceClient;
         this.model = model;
+        allResourceRequests = new ArrayList<>();
+        allResourceRequests.addAll(resourceServiceClient.getAllResourceRequests());
         setCaption("Übersicht");
         createWidgets();
         showWidgets();
@@ -34,9 +34,13 @@ class Overview extends VerticalLayout {
 
     private void createWidgets() {
         listDataProvider =
-                new ListDataProvider<>(resourceServiceClient.getAllResourceRequests());
+                new ListDataProvider<>(allResourceRequests);
         btReload = new Button("Neuladen");
-        btReload.addClickListener(clickEvent -> { listDataProvider.refreshAll(); });
+        btReload.addClickListener(clickEvent -> {
+            allResourceRequests.clear();
+            allResourceRequests.addAll(resourceServiceClient.getAllResourceRequests());
+            listDataProvider.refreshAll(); }
+        );
         grid = new Grid<>();
         grid.setSizeFull();
         grid.setDataProvider(listDataProvider);
@@ -49,6 +53,9 @@ class Overview extends VerticalLayout {
             Iterator<ResourceRequest> it = grid.getSelectedItems().iterator();
             if (it.hasNext()) {
                 model.setCurrentlySelectedResourceRequest(it.next());
+            }
+            else {
+                model.setCurrentlySelectedResourceRequest(null);
             }
         });
     }
