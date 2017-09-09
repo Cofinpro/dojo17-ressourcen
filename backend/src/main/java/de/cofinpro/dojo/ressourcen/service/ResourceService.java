@@ -1,12 +1,17 @@
 package de.cofinpro.dojo.ressourcen.service;
 
 import de.cofinpro.dojo.ressourcen.dao.DataObjectDao;
+import de.cofinpro.dojo.ressourcen.model.CustomerRole;
 import de.cofinpro.dojo.ressourcen.model.ResourceRequest;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Key;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -19,7 +24,7 @@ public class ResourceService {
 
     @Inject
     private DataObjectDao dataObjectDao;
-    
+
     @GET
     @Path("/requests")
     public List<ResourceRequest> getAllRequests() {
