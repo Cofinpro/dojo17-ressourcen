@@ -13,7 +13,7 @@
 	<artifactId>frontend-vaadin</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>frontend-vaadin</name>
+    <name>Coding Dojo 2017 Ressourcenanfrage Frontend VAADIN</name>
 
 	<prerequisites>
 		<maven>3</maven>

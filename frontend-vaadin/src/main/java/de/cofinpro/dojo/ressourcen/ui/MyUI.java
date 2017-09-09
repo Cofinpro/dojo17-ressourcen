@@ -6,12 +6,9 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import de.cofinpro.dojo.ressourcen.service.ResourceServiceClient;
+import sun.misc.Version;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window 
@@ -25,23 +22,28 @@ public class MyUI extends UI {
 
     private ResourceServiceClient resourceServiceClient = new ResourceServiceClient();
 
+    private TabSheet rootLayout;
+
+    private Overview overview;
+
+    private CRUDMask singleCrud;
+
+    private GlobalViewModel model;
+
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        final VerticalLayout layout = new VerticalLayout();
+        model = new GlobalViewModel();
+        initComponents();
+        setContent(rootLayout);
+    }
 
-        final TextField name = new TextField();
-        name.setCaption("Type your name here:");
-
-        Button button = new Button("Click Me");
-        button.addClickListener(e -> {
-            layout.addComponent(new Label("Thanks " + name.getValue()
-                    + ", it works!"));
-            layout.addComponent(new Label("Current known requests: " + getRequestsPresentation()));
-        });
-
-        layout.addComponents(name, button);
-
-        setContent(layout);
+    private void initComponents() {
+        rootLayout = new TabSheet();
+        singleCrud = new CRUDMask(resourceServiceClient,model);
+        overview = new Overview(resourceServiceClient, model);
+        rootLayout.addTab(singleCrud);
+        rootLayout.addTab(overview);
+        setContent(rootLayout);
     }
 
     private String getRequestsPresentation() {
