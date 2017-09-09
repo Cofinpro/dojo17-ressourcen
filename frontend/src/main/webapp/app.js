@@ -162,7 +162,9 @@ var app = new Vue({
         
         postRequest["status"] = "OPEN";
         
-        axios.post('http://localhost:8080/resources-service/resources/requests/create', postRequest)
+        var restHost = location.protocol + '//' + location.hostname;
+        
+        axios.post(restHost.concat(':8080/resources-service/resources/requests/create'), postRequest)
             .then(response => {
                 alert("Erfolgreich abgeschickt!");
             })
