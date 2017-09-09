@@ -43,7 +43,8 @@ public class ResourceServiceClient {
 
     public ResourceRequest createNewRequest(ResourceRequest resourceRequest) {
         //"/requests/create"
-        Response response = baseTarget.path("requests").path("create").request().post(Entity.entity(resourceRequest, MediaType.APPLICATION_JSON));
+        Entity<ResourceRequest> entity = Entity.entity(resourceRequest, MediaType.APPLICATION_JSON);
+        Response response = baseTarget.path("requests").path("create").request().post(entity);
         String key = response.readEntity(String.class);
         response.close();  // You should close connections!
         return getResourceRequestById(key);
