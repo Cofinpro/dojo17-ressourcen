@@ -171,6 +171,10 @@ var app = new Vue({
             .catch(e => {
               alert(e);
             });
+    },
+    clear: function(event) {
+        event.preventDefault();
+        this.request = newRequest;
     }
   }
 });
