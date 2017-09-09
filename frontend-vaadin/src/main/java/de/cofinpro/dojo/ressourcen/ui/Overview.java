@@ -44,14 +44,26 @@ class Overview extends VerticalLayout {
         grid = new Grid<>();
         grid.setSizeFull();
         grid.setDataProvider(listDataProvider);
-        //grid.setSelectionMode(Grid.SelectionMode.SINGLE);
+        grid.setSelectionMode(Grid.SelectionMode.SINGLE);
         HeaderRow topHeader = grid.prependHeaderRow();
         grid.addColumn(ResourceRequest::getTitle)
                 .setId("TitleColumn")
                 .setCaption("Titel");
+        grid.addColumn(ResourceRequest::getStatus)
+                .setId("StatusColumn")
+                .setCaption("Status");
+        grid.addColumn(ResourceRequest::getCustomerName)
+                .setId("CustomerColumn")
+                .setCaption("Kundenname");
         grid.addColumn(ResourceRequest::getProjectName)
                 .setId("ProjectColumn")
                 .setCaption("Project");
+        grid.addColumn(ResourceRequest::getRoleName)
+                .setId("RoleColumn")
+                .setCaption("Rollenname");
+        grid.addColumn(ResourceRequest::getTaskDescription)
+                .setId("TaskColumn")
+                .setCaption("Aufgabenbeschreibung");
         grid.addColumn(ResourceRequest::getDecisionDate)
                 .setId("DecisionDateColumn")
                 .setCaption("Entscheidungsdatum");

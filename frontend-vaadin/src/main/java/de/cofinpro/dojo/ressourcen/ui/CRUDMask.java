@@ -5,6 +5,7 @@ import com.vaadin.data.ValueProvider;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.server.Setter;
 import com.vaadin.ui.*;
+import de.cofinpro.dojo.ressourcen.model.RequestStatus;
 import de.cofinpro.dojo.ressourcen.model.ResourceRequest;
 import de.cofinpro.dojo.ressourcen.service.ResourceServiceClient;
 
@@ -15,6 +16,7 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Date;
 
 class CRUDMask extends VerticalLayout implements PropertyChangeListener {
@@ -35,6 +37,8 @@ class CRUDMask extends VerticalLayout implements PropertyChangeListener {
     private TextField tfPropability;
     private DateField dfRunTimeStart;
     private DateField dfRunTimeEnd;
+
+    private ComboBox cbStatus;
 
     private Button btCreateNew;
 
@@ -63,6 +67,11 @@ class CRUDMask extends VerticalLayout implements PropertyChangeListener {
         dfRunTimeStart = new DateField("Startzeitpunkt");
         dfRunTimeEnd = new DateField("Endzeitpunkt");
 
+        cbStatus = new ComboBox("Status");
+        cbStatus.setDataProvider(new ListDataProvider(Arrays.asList(RequestStatus.values())));
+        cbStatus.setEmptySelectionAllowed(false);
+        cbStatus.setSelectedItem(RequestStatus.DRAFT);
+
         btCreateNew = new Button("Erstelle neuen Request");
         btCreateNew.addClickListener(clickEvent -> {onCreateNew();});
 
@@ -79,6 +88,8 @@ class CRUDMask extends VerticalLayout implements PropertyChangeListener {
         binder.bind(tfLocation, ResourceRequest::getLocation, ResourceRequest::setLocation);
         binder.bind(tfProjectDescription, ResourceRequest::getProjectDescription, ResourceRequest::setProjectDescription);
         binder.bind(tfTaskDescription, ResourceRequest::getTaskDescription, ResourceRequest::setTaskDescription);
+
+        binder.bind(cbStatus, ResourceRequest::getStatus, ResourceRequest::setStatus);
 
         //    return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
         //    Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())
@@ -203,6 +214,7 @@ class CRUDMask extends VerticalLayout implements PropertyChangeListener {
     private void showWidgets() {
         addComponent(btCreateNew);
         addComponent(tfTitel);
+        addComponent(cbStatus);
         addComponent(tfCustomerName);
         addComponent(tfProjectName);
         addComponent(tfRoleName);
