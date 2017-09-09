@@ -6,6 +6,7 @@ import org.mongodb.morphia.annotations.Id;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 
 public class ResourceRequest implements DataObject {
 
@@ -409,7 +410,7 @@ public class ResourceRequest implements DataObject {
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
         if (customerName != null ? !customerName.equals(that.customerName) : that.customerName != null) return false;
         if (projectName != null ? !projectName.equals(that.projectName) : that.projectName != null) return false;
-        if (role != that.role) return false;
+        if (!Objects.equals(roleName, that.roleName)) return false;
         if (location != null ? !location.equals(that.location) : that.location != null) return false;
         if (projectDescription != null ? !projectDescription.equals(that.projectDescription) : that.projectDescription != null)
             return false;
@@ -424,7 +425,7 @@ public class ResourceRequest implements DataObject {
         if (pitchDeadline != null ? !pitchDeadline.equals(that.pitchDeadline) : that.pitchDeadline != null)
             return false;
         if (decisionDate != null ? !decisionDate.equals(that.decisionDate) : that.decisionDate != null) return false;
-        if (propability != null ? !propability.equals(that.propability) : that.propability != null) return false;
+        if (probability != null ? !probability.equals(that.probability) : that.probability != null) return false;
         if (runTimeStart != null ? !runTimeStart.equals(that.runTimeStart) : that.runTimeStart != null) return false;
         if (runTimeEnd != null ? !runTimeEnd.equals(that.runTimeEnd) : that.runTimeEnd != null) return false;
         if (dayRate != null ? !dayRate.equals(that.dayRate) : that.dayRate != null) return false;
@@ -439,7 +440,7 @@ public class ResourceRequest implements DataObject {
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (customerName != null ? customerName.hashCode() : 0);
         result = 31 * result + (projectName != null ? projectName.hashCode() : 0);
-        result = 31 * result + (role != null ? role.hashCode() : 0);
+        result = 31 * result + (roleName != null ? roleName.hashCode() : 0);
         result = 31 * result + (location != null ? location.hashCode() : 0);
         result = 31 * result + (projectDescription != null ? projectDescription.hashCode() : 0);
         result = 31 * result + (taskDescription != null ? taskDescription.hashCode() : 0);
@@ -448,7 +449,7 @@ public class ResourceRequest implements DataObject {
         result = 31 * result + (englishRequired != null ? englishRequired.hashCode() : 0);
         result = 31 * result + (pitchDeadline != null ? pitchDeadline.hashCode() : 0);
         result = 31 * result + (decisionDate != null ? decisionDate.hashCode() : 0);
-        result = 31 * result + (propability != null ? propability.hashCode() : 0);
+        result = 31 * result + (probability != null ? probability.hashCode() : 0);
         result = 31 * result + (runTimeStart != null ? runTimeStart.hashCode() : 0);
         result = 31 * result + (runTimeEnd != null ? runTimeEnd.hashCode() : 0);
         result = 31 * result + (dayRate != null ? dayRate.hashCode() : 0);
