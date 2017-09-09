@@ -72,7 +72,7 @@ var newRequest = {
      requiredSkills: [{value: ""}],
      additionalSkills: [{value: ""}],
      englishRequired: false,
-     englishLevelRequirements: "",
+     englishLevelRequirements: "NONE",
      pitchDeadline: "",
      decisionDate: "",
      probability: "",
