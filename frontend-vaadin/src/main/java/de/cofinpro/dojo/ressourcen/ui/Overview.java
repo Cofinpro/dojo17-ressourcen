@@ -49,6 +49,13 @@ class Overview extends VerticalLayout {
         grid.addColumn(ResourceRequest::getTitle)
                 .setId("TitleColumn")
                 .setCaption("Titel");
+        grid.addColumn(ResourceRequest::getProjectName)
+                .setId("ProjectColumn")
+                .setCaption("Project");
+        grid.addColumn(ResourceRequest::getDecisionDate)
+                .setId("DecisionDateColumn")
+                .setCaption("Entscheidungsdatum");
+
         grid.addSelectionListener(selectionEvent -> {
             Iterator<ResourceRequest> it = grid.getSelectedItems().iterator();
             if (it.hasNext()) {

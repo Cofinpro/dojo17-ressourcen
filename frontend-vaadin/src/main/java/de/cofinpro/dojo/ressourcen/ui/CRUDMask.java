@@ -1,13 +1,19 @@
 package de.cofinpro.dojo.ressourcen.ui;
 
 import com.vaadin.data.Binder;
+import com.vaadin.data.ValueProvider;
 import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.server.Setter;
 import com.vaadin.ui.*;
 import de.cofinpro.dojo.ressourcen.model.ResourceRequest;
 import de.cofinpro.dojo.ressourcen.service.ResourceServiceClient;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 class CRUDMask extends VerticalLayout implements PropertyChangeListener {
 
@@ -16,6 +22,8 @@ class CRUDMask extends VerticalLayout implements PropertyChangeListener {
 
     private Binder<ResourceRequest> binder;
     private TextField tfTitel;
+    private TextField tfProjectName;
+    private DateField dtDecisionDate;
 
     private Button btCreateNew;
 
@@ -30,12 +38,35 @@ class CRUDMask extends VerticalLayout implements PropertyChangeListener {
 
     private void createWidgets() {
         tfTitel = new TextField("Titel");
+        tfProjectName = new TextField("Projektname");
+        dtDecisionDate = new DateField("Entscheidungsdatum");
         btCreateNew = new Button("Erstelle neuen Request");
         btCreateNew.addClickListener(clickEvent -> {onCreateNew();});
 
         binder = new Binder<>();
 
         binder.bind(tfTitel, ResourceRequest::getTitle, ResourceRequest::setTitle);
+        binder.bind(tfProjectName, ResourceRequest::getProjectName, ResourceRequest::setProjectName);
+        //    return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        //    Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())
+        binder.bind(dtDecisionDate, new ValueProvider<ResourceRequest, LocalDate>() {
+                    @Override
+                    public LocalDate apply(ResourceRequest resourceRequest) {
+                        if (resourceRequest.getDecisionDate() == null) {
+                            return null;
+                        }
+                        return Instant.ofEpochMilli(resourceRequest.getDecisionDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+                    }
+                },
+                new Setter<ResourceRequest, LocalDate>() {
+                    @Override
+                    public void accept(ResourceRequest resourceRequest, LocalDate localDate) {
+                        if (localDate != null) {
+                            resourceRequest.setDecisionDate(Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+                        }
+                    }
+                }
+        );
     }
 
     private void onCreateNew() {
@@ -58,6 +89,8 @@ class CRUDMask extends VerticalLayout implements PropertyChangeListener {
     private void showWidgets() {
         addComponent(btCreateNew);
         addComponent(tfTitel);
+        addComponent(tfProjectName);
+        addComponent(dtDecisionDate);
     }
 
     @Override
