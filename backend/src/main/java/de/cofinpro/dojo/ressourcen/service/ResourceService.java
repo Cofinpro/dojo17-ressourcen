@@ -4,18 +4,19 @@ import de.cofinpro.dojo.ressourcen.dao.DataObjectDao;
 import de.cofinpro.dojo.ressourcen.model.ResourceRequest;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Key;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Path("/resources")
 @Produces("application/json")
 @Consumes("application/json")
 public class ResourceService {
 
-    private static final Logger LOG = Logger.getLogger(ResourceService.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(ResourceService.class.getName());
 
     @Inject
     private DataObjectDao dataObjectDao;
