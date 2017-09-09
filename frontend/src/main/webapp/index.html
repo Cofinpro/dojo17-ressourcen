@@ -296,10 +296,11 @@
             </div>
             
         </fieldset>
-        
+
         <div class="pure-controls">
+            <button class="pure-button button-error" v-on:click="clear">Zurücksetzen</button>
             <button class="pure-button pure-button-primary" v-on:click="save">Speichern</button>
-            <button class="pure-button pure-button-primary" v-on:click="publish">Veröffentlichen</button>
+            <button class="pure-button button-success" v-on:click="publish">Veröffentlichen</button>
         </div>
     </fieldset>
 </form>

@@ -60,4 +60,15 @@ public class ResourceService {
         ObjectId objectId = new ObjectId(id);
         return dataObjectDao.findById(ResourceRequest.class, objectId);
     }
+    
+    @DELETE
+    @Path("/requests/{id}")
+    public void deleteById(@PathParam("id") String id) {
+        ResourceRequest request = this.getRequest(id);
+        if (request != null) {
+            dataObjectDao.delete(request);
+        } else {
+            throw new IllegalArgumentException("Unable to delete " + id);
+        }
+    }
 }

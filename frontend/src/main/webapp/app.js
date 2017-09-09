@@ -122,6 +122,15 @@ function flattenList(valueList) {
     return result;
 }
 
+function flattenMap(valueMap) {
+    var result = {};
+    for (var i = 0; i < valueMap.length; i++) {
+        var v = valueMap[i];
+        result[v["key"]] = v["value"];
+    }
+    return result;
+}
+
 var app = new Vue({
   el: '#app',
   data: {
@@ -133,6 +142,9 @@ var app = new Vue({
         event.preventDefault();
         if (localStorage) {
             localStorage.setItem("request", JSON.stringify(this.request));
+            alert("Erfolgreich gesichert!");
+        } else {
+            alert("Speichern nicht möglich, bitte direkt veröffentlichen!");
         }
     },
     publish: function(event) {
@@ -145,13 +157,24 @@ var app = new Vue({
         postRequest["candidates"] = flattenList(postRequest["candidates"]);
         postRequest["externalRequiredSkills"] = flattenList(postRequest["externalRequiredSkills"]);
         postRequest["externalAdditionalSkills"] = flattenList(postRequest["externalAdditionalSkills"]);
+        
+        postRequest["competition"] = flattenMap(postRequest["competition"]);
+        
         postRequest["status"] = "OPEN";
         
+        alert(JSON.stringify(postRequest));
+        
         axios.post('http://localhost:8080/resources-service/resources/requests/create', postRequest)
-            .then(response => {})
+            .then(response => {
+                alert("Erfolgreich abgeschickt!");
+            })
             .catch(e => {
               alert(e);
             });
+    },
+    clear: function(event) {
+        event.preventDefault();
+        this.request = newRequest;
     }
   }
 });
