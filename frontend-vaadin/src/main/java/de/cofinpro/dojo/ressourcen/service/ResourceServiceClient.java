@@ -29,7 +29,8 @@ public class ResourceServiceClient {
     }
 
     public List<ResourceRequest> getAllResourceRequests() {
-        GenericType<List<ResourceRequest>> genericType = new GenericType<List<ResourceRequest>>() {};
+        GenericType<List<ResourceRequest>> genericType = new GenericType<List<ResourceRequest>>() {
+        };
         Response response = baseTarget.path("requests").request().get();
         List<ResourceRequest> value = response.readEntity(genericType);
         response.close();  // You should close connections!
@@ -48,5 +49,14 @@ public class ResourceServiceClient {
         String key = response.readEntity(String.class);
         response.close();  // You should close connections!
         return getResourceRequestById(key);
+    }
+
+    public ResourceRequest updateExistingRequest(ResourceRequest resourceRequest) {
+        Entity<ResourceRequest> entity = Entity.entity(resourceRequest, MediaType.APPLICATION_JSON);
+        String id = resourceRequest.getId();
+        Response response = baseTarget.path("requests").path(id).request().put(entity);
+        String updatedKey = response.readEntity(String.class);
+        response.close();  // You should close connections!
+        return getResourceRequestById(updatedKey);
     }
 }

@@ -41,13 +41,14 @@ class CRUDMask extends VerticalLayout implements PropertyChangeListener {
     private ComboBox cbStatus;
 
     private Button btCreateNew;
+    private Button btUpdateExisting;
 
     private DecimalFormat df = new DecimalFormat("#.00");;
 
     CRUDMask(ResourceServiceClient resourceServiceClient, GlobalViewModel model) {
         this.resourceServiceClient = resourceServiceClient;
         this.model = model;
-        setCaption("Neuen Request erstellen");
+        setCaption("Request bearbeiten oder erstellen");
         createWidgets();
         showWidgets();
         model.addPropertyChangeListener(this);
@@ -74,6 +75,9 @@ class CRUDMask extends VerticalLayout implements PropertyChangeListener {
 
         btCreateNew = new Button("Erstelle neuen Request");
         btCreateNew.addClickListener(clickEvent -> {onCreateNew();});
+
+        btUpdateExisting = new Button("Aktualisiere vorhandenen Request");
+        btUpdateExisting.addClickListener(clickEvent -> {onUpdateExisting();});
 
         bind();
     }
@@ -211,8 +215,25 @@ class CRUDMask extends VerticalLayout implements PropertyChangeListener {
     }
 
 
+    private void onUpdateExisting() {
+        boolean saved = binder.writeBeanIfValid(model.getCurrentlySelectedResourceRequest());
+        if (saved) {
+            resourceServiceClient.updateExistingRequest(model.getCurrentlySelectedResourceRequest());
+            model.setCurrentlySelectedResourceRequest(null); //prepare for new one
+            Notification.show("Änderungen übernommen",
+                    "Der Request mit dem Titel " + model.getCurrentlySelectedResourceRequest().getTitle() + " wurde erfolgreich gespeichert :" + model.getCurrentlySelectedResourceRequest(),
+                    Notification.Type.HUMANIZED_MESSAGE);
+        }
+        else {
+            Notification.show("Fehler beim Speichern",
+                    "Der Request mit dem Titel " + model.getCurrentlySelectedResourceRequest().getTitle() + " konnte NICHT aktualisiert werden. Bitte prüfen Sie die Feldeingaben.",
+                    Notification.Type.WARNING_MESSAGE);
+        }
+    }
+
     private void showWidgets() {
         addComponent(btCreateNew);
+        addComponent(btUpdateExisting);
         addComponent(tfTitel);
         addComponent(cbStatus);
         addComponent(tfCustomerName);
