@@ -162,8 +162,6 @@ var app = new Vue({
         
         postRequest["status"] = "OPEN";
         
-        alert(JSON.stringify(postRequest));
-        
         axios.post('http://localhost:8080/resources-service/resources/requests/create', postRequest)
             .then(response => {
                 alert("Erfolgreich abgeschickt!");
