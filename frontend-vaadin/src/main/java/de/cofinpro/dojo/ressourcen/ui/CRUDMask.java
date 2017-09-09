@@ -222,10 +222,10 @@ class CRUDMask extends VerticalLayout implements PropertyChangeListener {
         boolean saved = binder.writeBeanIfValid(model.getCurrentlySelectedResourceRequest());
         if (saved) {
             resourceServiceClient.updateExistingRequest(model.getCurrentlySelectedResourceRequest());
-            model.setCurrentlySelectedResourceRequest(null); //prepare for new one
             Notification.show("Änderungen übernommen",
                     "Der Request mit dem Titel " + model.getCurrentlySelectedResourceRequest().getTitle() + " wurde erfolgreich gespeichert :" + model.getCurrentlySelectedResourceRequest(),
                     Notification.Type.HUMANIZED_MESSAGE);
+            model.setCurrentlySelectedResourceRequest(null); //prepare for new one
         }
         else {
             Notification.show("Fehler beim Speichern",

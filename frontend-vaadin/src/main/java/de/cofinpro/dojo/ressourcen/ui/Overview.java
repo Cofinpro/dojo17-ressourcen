@@ -1,6 +1,8 @@
 package de.cofinpro.dojo.ressourcen.ui;
 
 import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.TextField;
@@ -13,7 +15,7 @@ import de.cofinpro.dojo.ressourcen.service.ResourceServiceClient;
 import java.beans.PropertyChangeSupport;
 import java.util.*;
 
-class Overview extends VerticalLayout {
+class Overview extends VerticalLayout implements View {
 
     private Grid<ResourceRequest> grid;
     private ResourceServiceClient resourceServiceClient;
@@ -37,9 +39,8 @@ class Overview extends VerticalLayout {
                 new ListDataProvider<>(allResourceRequests);
         btReload = new Button("Neuladen");
         btReload.addClickListener(clickEvent -> {
-            allResourceRequests.clear();
-            allResourceRequests.addAll(resourceServiceClient.getAllResourceRequests());
-            listDataProvider.refreshAll(); }
+                    onReload();
+                }
         );
         grid = new Grid<>();
         grid.setSizeFull();
@@ -79,6 +80,15 @@ class Overview extends VerticalLayout {
         });
     }
 
+    private void onReload() {
+        allResourceRequests.clear();
+        allResourceRequests.addAll(resourceServiceClient.getAllResourceRequests());
+        listDataProvider.refreshAll();
+        listDataProvider =  new ListDataProvider<>(allResourceRequests);
+        grid.setDataProvider(listDataProvider);
+        grid.clearSortOrder();
+    }
+
     private void showWidgets() {
         addComponent(btReload);
         addComponent(grid);
@@ -90,5 +100,10 @@ class Overview extends VerticalLayout {
         filter.addStyleName(ValoTheme.TEXTFIELD_TINY);
         filter.setPlaceholder("Filter");
         return filter;
+    }
+
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent event) {
+        onReload();
     }
 }
