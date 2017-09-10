@@ -15,43 +15,43 @@
 </div>
 <h1>Ressourcenanfrage</h1>
 <p>
-    Im Falle einer Ressourcenanfrage ist dieses Formular mit dem Button "Veröffentlichen" abzusenden. Sollte der Zugriff auf den Server nicht möglich sein, so kann die Anfrage mittels "Speichern" zwischengespeichert werden und später abgeschickt werden. <strong>Unvollständig ausgefüllte Formulare werden nicht berücksichtigt.</strong>>
+    Im Falle einer Ressourcenanfrage ist dieses Formular mit dem Button "Veröffentlichen" abzusenden. Sollte der Zugriff auf den Server nicht möglich sein, so kann die Anfrage mittels "Speichern" zwischengespeichert werden und später abgeschickt werden. <strong>Unvollständig ausgefüllte Formulare werden nicht berücksichtigt.</strong>
 </p>
-<form id="app" class="pure-form pure-form-aligned">
+<form id="app" class="pure-form pure-form-aligned" v-on:submit.prevent="publish">
     <fieldset>
         <legend>Basisdaten</legend>
 
         <div class="pure-control-group">
             <label for="requestTitle">Anfragetitel</label>
-            <input id="requestTitle" v-model="request.title" placeholder="Titel der Anfrage">
+            <input id="requestTitle" v-model="request.title" placeholder="Titel der Anfrage" required>
         </div>
         <div class="pure-control-group">
             <label for="customer">Kunde</label>
-            <input id="customer" v-model="request.customerName" placeholder="Name des Kunden">
+            <input id="customer" v-model="request.customerName" placeholder="Name des Kunden" required>
         </div>
         <div class="pure-control-group">
             <label for="project">Projekt</label>
-            <input id="project" v-model="request.projectName" placeholder="Name des Projekts">
+            <input id="project" v-model="request.projectName" placeholder="Name des Projekts" required>
         </div>
         <div class="pure-control-group">
             <label for="role">Rolle</label>
-            <input id="role" v-model="request.roleName" placeholder="Rolle innerhalb des Projekts">
+            <input id="role" v-model="request.roleName" placeholder="Rolle innerhalb des Projekts" required>
         </div>
 
         <div class="pure-control-group">
             <label for="location">Einsatzort</label>
-            <input id="location" v-model="request.location" placeholder="Einsatzort">
+            <input id="location" v-model="request.location" placeholder="Einsatzort" required>
         </div>
 
         <div class="pure-control-group">
             <label for="projectDescription">Kurze Beschreibung des Projekts </label>
-            <textarea id="projectDescription" v-model="request.projectDescription" placeholder="Beschreibung"></textarea>
+            <textarea id="projectDescription" v-model="request.projectDescription" placeholder="Beschreibung" required></textarea>
             <span class="pure-form-message-inline">(Welche Zielstellung verfolgt das Projekt bzw. der Einsatz?)</span>
         </div>
 
         <div class="pure-control-group">
             <label for="taskDescription">Aufgabenbeschreibung </label>
-            <textarea id="taskDescription" v-model="request.taskDescription" placeholder="Beschreibung"></textarea>
+            <textarea id="taskDescription" v-model="request.taskDescription" placeholder="Beschreibung" required></textarea>
             <span class="pure-form-message-inline">(Welche Schnittstellen liegen vor? Einordnung im Projekt)</span>
         </div>
 
@@ -92,17 +92,17 @@
 
         <div class="pure-control-group">
             <label for="pitchDeadline">Angebots&shy;abgabetermin</label>
-            <input type="date" id="pitchDeadline" v-model="request.pitchDeadline">
+            <input type="date" id="pitchDeadline" v-model="request.pitchDeadline" required>
         </div>
 
         <div class="pure-control-group">
             <label for="decisionDate">Entscheidungs&shy;termin</label>
-            <input type="date" id="decisionDate" v-model="request.decisionDate">
+            <input type="date" id="decisionDate" v-model="request.decisionDate" required>
         </div>
 
         <div class="pure-control-group">
             <label for="probability">Auftrags&shy;wahrscheinlichkeit</label>
-            <select id="probability" v-model="request.probability">
+            <select id="probability" v-model="request.probability" required>
                 <option value="0.25">25%</option>
                 <option value="0.50">50%</option>
                 <option value="0.75">75%</option>
@@ -115,7 +115,7 @@
             <fieldset>
                 <legend>Laufzeit</legend>
                 <label for="runTimeStart">von:</label>
-                <input type="date" id="runTimeStart" v-model="request.runTimeStart">
+                <input type="date" id="runTimeStart" v-model="request.runTimeStart" required>
                 <label for="runTimeEnd">bis</label>
                 <input type="date" id="runTimeEnd" v-model="request.runTimeEnd">
             </fieldset>
@@ -123,7 +123,7 @@
 
         <div class="pure-control-group">
             <label for="dayRate">Tagessatz</label>
-            <input id="dayRate" v-model.number="request.dayRate" type="number" min="1">
+            <input id="dayRate" v-model.number="request.dayRate" type="number" min="1" required>
             <span class="pure-form-message-inline">&euro; (PT-Satz)</span>
         </div>
 
@@ -135,7 +135,7 @@
 
         <div class="pure-control-group">
             <label for="workload">Auslastungsgrad</label>
-            <input id="workload" v-model.number="request.workload" type="number" min="20" max="100" step="20"> &percnt;
+            <input id="workload" v-model.number="request.workload" type="number" min="20" max="100" step="20" required> &percnt;
         </div>
 
         <div class="pure-control-group">
@@ -190,12 +190,12 @@
                         <option value="5">5</option>
                         <option value="6">6</option>
                     </select>
-                    <input type="text" v-model="request.positioningCustomerReason" placeholder="Begründung">
+                    <input type="text" v-model="request.positioningCustomerReason" placeholder="Begründung" required>
                 </div>
 
                 <div class="pure-control-group">
                     <label for="crossSellingPotential">Weiteres Wachstum (kundenübergreifende Wirkung)</label>
-                    <select id="crossSellingPotential" v-model="request.crossSellingPotential">
+                    <select id="crossSellingPotential" v-model="request.crossSellingPotential" required>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -308,7 +308,7 @@
         <div class="pure-controls">
             <button class="pure-button button-error" v-on:click="clear">Zurücksetzen</button>
             <button class="pure-button pure-button-primary" v-on:click="save">Speichern</button>
-            <button class="pure-button button-success" v-on:click="publish">Veröffentlichen</button>
+            <button type="submit" class="pure-button button-success">Veröffentlichen</button>
         </div>
     </fieldset>
 </form>

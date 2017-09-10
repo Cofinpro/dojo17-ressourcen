@@ -147,7 +147,6 @@ var app = new Vue({
         }
     },
     publish: function(event) {
-        event.preventDefault();
 
         var postRequest = JSON.parse(JSON.stringify(this.request));
 
@@ -178,6 +177,7 @@ var app = new Vue({
   }
 });
 
+/*
 $(function () {
 //do your own request an handle the results
     $.post({
@@ -190,3 +190,4 @@ $(function () {
         }
     });
 });
+*/
