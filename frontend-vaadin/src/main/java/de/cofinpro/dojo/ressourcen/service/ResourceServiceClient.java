@@ -39,7 +39,9 @@ public class ResourceServiceClient {
 
     public ResourceRequest getResourceRequestById(String id) {
         Response response = baseTarget.path("requests").path(id).request().get();
-        return response.readEntity(ResourceRequest.class);
+        ResourceRequest back = response.readEntity(ResourceRequest.class);
+        response.close();
+        return back;
     }
 
     public ResourceRequest createNewRequest(ResourceRequest resourceRequest) {
