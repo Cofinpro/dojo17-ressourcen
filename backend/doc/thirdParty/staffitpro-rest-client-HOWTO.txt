@@ -1,0 +1,158 @@
+staffitpro REST API requests HOWTO
+
+Model-Implementierung ist C#-App ASP aus Installation von EXE aus  
+Z:\vmshare\SetupstaffITproWebApiServerDE.zip
+von http://www.staffitpro.de/index-2.html
+
+Notwendige Aufrufe:
+1. RequestSecurityToken
+2. <Service>.<Operation>
+
+zu 2.: Beispiel für <Service> ist CandidateService mit Beispiel-Op CandidateCreate 
+
+Mitschnitt aus App Lead aus selbem ZIP:
+http://www.staffitproclouddemo.de/staffITproWebApi/application
+#1 Request
+"...
+POST https://www.staffitproclouddemo.de/staffITproWebApi/Token/ HTTP/1.1
+Authorization: SIP sip_username=TEP sip_password=SIP*2009T sip_database=staffITproWebApiDemo app_key=462EA3BCFD95444AB4C7B0C4B87EE2252B778E0065AE453C969383D2281F45036FC3B69D044F4997A23F9D1DF96BFF327E23910200E3474C899335E01F1A9EF9
+Accept: text/xml
+Content-Type: text/xml
+Host: www.staffitproclouddemo.de
+Content-Length: 303
+Expect: 100-continue
+Connection: Keep-Alive
+
+﻿<RequestSecurityToken xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.staffitpro.com/rest/2011/01/trust"><AppliesTo>www.staffITproCloudDemo.de/staffITproWebApi</AppliesTo><TokenType>http://staffITpro.com/tokens/staffITproSecurityToken/type</TokenType>
+ </RequestSecurityToken>
+..." -> "...
+HTTP/1.1 200 OK
+Cache-Control: private
+Content-Length: 488
+Content-Type: text/xml; charset=utf-8
+Server: Microsoft-IIS/8.5
+X-AspNet-Version: 4.0.30319
+X-Powered-By: ASP.NET
+Date: Fri, 08 Sep 2017 15:17:38 GMT
+
+<RequestSecurityTokenResponse xmlns="http://schemas.staffitpro.com/rest/2011/01/trust" 
+xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+<RequestedSecurityToken>567b5947-ad6e-4098-8d6d-78f858705d0e</RequestedSecurityToken>
+<TokenId>567b5947-ad6e-4098-8d6d-78f858705d0e</TokenId>
+<TokenType>http://staffITpro.com/tokens/staffITproSecurityToken/type</TokenType>
+<ValidFrom>2017-09-08T15:17:38.7661355Z</ValidFrom>
+<ValidTo>2017-09-09T01:17:38.7661355Z</ValidTo>
+</RequestSecurityTokenResponse>
+..."
+
+RequestedSecurityToken
+TokenId
+TokenType
+ValidFrom
+ValidTo
+
+
+App LEAD auth data aus C# source:"...
+
+<add key="staffITproWebApi_Username" value="TEP" />
+    <add key="staffITproWebApi_Password" value="SIP*2009T" />
+    <add key="staffITproWebApi_Database" value="staffITproWebApiDemo" />
+    <add key="staffITproWebApi_Service" value="www.staffITproCloudDemo.de/staffITproWebApi/" />
+    <add key="staffITproWebApi_AppGuid" value="462EA3BCFD95444AB4C7B0C4B87EE2252B778E0065AE453C969383D2281F45036FC3B69D044F4997A23F9D1DF96BFF327E23910200E3474C899335E01F1A9EF9" />
+..."
+
+http://staffitproclouddemo.de/staffITproWebApi/Token/
+
+
+C:\Program Files (x86)\audeoSoft\staffITproWeb API Client\Source\staffITproWeb.API.Demo.ASP\App_Code\AppContext.cs
+"...
+
+        public LoginResponse Login()
+        {
+            AppContext appContext = AppContext.GetInstance();
+            string userName = ConfigurationManager.AppSettings["staffITproWebApi_Username"];
+            string password = ConfigurationManager.AppSettings["staffITproWebApi_Password"];
+            string database = ConfigurationManager.AppSettings["staffITproWebApi_Database"];
+            string serviceAddress = ConfigurationManager.AppSettings["staffITproWebApi_Service"];
+            string appGuid = ConfigurationManager.AppSettings["staffITproWebApi_AppGuid"];
+            bool isHttpsOnly = false;
+            int? httpPort = 80;
+            int httpsPort = 443;
+
+            LoginResponse loginResponse = new LoginResponse();
+            loginResponse.IsSuccessful = false;
+
+            try
+            {
+                appContext.Authenticate(
+                    userName, password, database, appGuid, serviceAddress, httpPort, httpsPort, isHttpsOnly);
+                loginResponse.IsSuccessful = true;
+..."
+->
+
+"...
+     public void Authenticate(
+            string userName,
+            string password,
+            string database,
+            string app_key,
+            string serviceBaseAddress,
+            int? httpPort,
+            int httpsPort,
+            bool isHttpsOnly)
+        {
+...
+                Uri tempBaseAddress = new Uri("prot://" + serviceBaseAddress);
+                StringBuilder httpsBaseAddress = new StringBuilder();
+                httpsBaseAddress.Append("https://");
+                httpsBaseAddress.Append(tempBaseAddress.Host);
+                httpsBaseAddress.Append(":");
+                httpsBaseAddress.Append(httpsPort.ToString());
+                httpsBaseAddress.Append(tempBaseAddress.AbsolutePath);
+                m_httpsBaseServiceAddress = new Uri(httpsBaseAddress.ToString());
+
+                if (!isHttpsOnly)
+                {
+                    StringBuilder httpBaseAddress = new StringBuilder();
+                    httpBaseAddress.Append("http://");
+                    httpBaseAddress.Append(tempBaseAddress.Host);
+                    httpBaseAddress.Append(":");
+                    httpBaseAddress.Append(httpPort.Value.ToString());
+                    httpBaseAddress.Append(tempBaseAddress.AbsolutePath);
+                    m_httpBaseServiceAddress = new Uri(httpBaseAddress.ToString());
+                }
+
+                m_tokenService = new TokenHandler(m_httpsBaseServiceAddress);
+                RequestSecurityTokenDTO tokenRequest = new RequestSecurityTokenDTO();
+                tokenRequest.AppliesTo = serviceBaseAddress;
+                tokenRequest.TokenType = ConfigurationManager.AppSettings["TokenType"];
+                m_token = m_tokenService.IssueToken(tokenRequest, userName, password, database, app_key);
+                m_userName = userName;
+                m_password = password;
+                m_database = database;
+                m_isHttpsOnly = isHttpsOnly;
+
+                if (isHttpsOnly)
+                {
+                    m_candidateService = new CandidateHandler(m_httpsBaseServiceAddress);
+                    m_commonService = new CommonHandler(m_httpsBaseServiceAddress);
+                    m_systemService = new SystemHandler(m_httpsBaseServiceAddress);
+                    m_positionService = new PositionHandler(m_httpsBaseServiceAddress);
+                    m_clientService = new ClientHandler(m_httpsBaseServiceAddress);
+                    m_contractService = new ContractHandler(m_httpsBaseServiceAddress);
+                }
+                else
+                {
+                    m_candidateService = new CandidateHandler(m_httpBaseServiceAddress);
+                    m_commonService = new CommonHandler(m_httpBaseServiceAddress);
+                    m_systemService = new SystemHandler(m_httpBaseServiceAddress);
+                    m_positionService = new PositionHandler(m_httpBaseServiceAddress);
+                    m_clientService = new ClientHandler(m_httpBaseServiceAddress);
+                    m_contractService = new ContractHandler(m_httpBaseServiceAddress);
+                }
+
+                m_candidateService.Timeout = new TimeSpan(1, 0, 0);
+                m_candidateService.ReadWriteTimeout = new TimeSpan(1, 0, 0);
+            }
+        }
+..."
