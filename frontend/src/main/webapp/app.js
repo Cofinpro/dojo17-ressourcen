@@ -25,7 +25,7 @@ Vue.component('removable-dual-input', {
 });
 
 Vue.component('multi-inputs', {
-  template: '<div class="multi-input"></input><removable-input v-bind:label="label" v-for="(item, index) in value" :item="item" :key="index" v-on:input="propagateChange" v-on:removed="removeListItem(index)"></removable-input><input type="button" v-on:click="addInput" value="+"></div>',
+  template: '<div class="multi-input"><removable-input v-bind:label="label" v-for="(item, index) in value" :item="item" :key="index" v-on:input="propagateChange" v-on:removed="removeListItem(index)"></removable-input><input type="button" v-on:click="addInput" value="+"></div>',
   props: ['value','label'],
   methods: {
     addInput: function () {
@@ -43,7 +43,7 @@ Vue.component('multi-inputs', {
 });
 
 Vue.component('map-inputs', {
-  template: '<div class="map-input"></input><removable-dual-input v-bind:keyLabel="keyLabel" v-bind:valueLabel="valueLabel" v-for="(item, index) in value" :item="item" :key="index" v-on:input="propagateChange" v-on:removed="removeListItem(index)"></removable-dual-input><input type="button" v-on:click="addInput" value="+"></div>',
+  template: '<div class="map-input"><removable-dual-input v-bind:keyLabel="keyLabel" v-bind:valueLabel="valueLabel" v-for="(item, index) in value" :item="item" :key="index" v-on:input="propagateChange" v-on:removed="removeListItem(index)"></removable-dual-input><input type="button" v-on:click="addInput" value="+"></div>',
   props: ['value','keyLabel','valueLabel'],
   methods: {
     addInput: function () {
