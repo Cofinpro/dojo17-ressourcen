@@ -17,7 +17,7 @@
 <p>
     Im Falle einer Ressourcenanfrage ist dieses Formular mit dem Button "Veröffentlichen" abzusenden. Sollte der Zugriff auf den Server nicht möglich sein, so kann die Anfrage mittels "Speichern" zwischengespeichert werden und später abgeschickt werden. <strong>Unvollständig ausgefüllte Formulare werden nicht berücksichtigt.</strong>
 </p>
-<form id="app" class="pure-form pure-form-aligned" v-on:submit.prevent="publish">
+<form id="app" class="pure-form pure-form-aligned" v-on:submit.prevent="onSubmit">
     <fieldset>
         <legend>Basisdaten</legend>
 
@@ -306,8 +306,8 @@
         </fieldset>
 
         <div class="pure-controls">
-            <button class="pure-button button-error" v-on:click="clear">Zurücksetzen</button>
-            <button class="pure-button pure-button-primary" v-on:click="save">Speichern</button>
+            <button type="reset" class="pure-button button-error" v-on:click="clear">Zurücksetzen</button>
+            <button type="submit" class="pure-button pure-button-primary" v-on:click.prevent="save('save')" formnovalidate>Speichern</button>
             <button type="submit" class="pure-button button-success">Veröffentlichen</button>
         </div>
     </fieldset>

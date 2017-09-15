@@ -134,41 +134,44 @@ function flattenMap(valueMap) {
 var app = new Vue({
   el: '#app',
   data: {
-    request: viewRequest,    message: 'Hello Vue!'
+    request: viewRequest
   },
   methods: {
-    save : function (event) {
-        event.preventDefault();
-        if (localStorage) {
-            localStorage.setItem("request", JSON.stringify(this.request));
-            alert("Erfolgreich gesichert!");
+    save: function(submitMode) {
+        if ("publish" == submitMode) {
+            alert("Publish!");
+            var postRequest = JSON.parse(JSON.stringify(this.request));
+    
+            postRequest["requiredSkills"] = flattenList(postRequest["requiredSkills"]);
+            postRequest["additionalSkills"] = flattenList(postRequest["additionalSkills"]);
+            postRequest["candidates"] = flattenList(postRequest["candidates"]);
+            postRequest["externalRequiredSkills"] = flattenList(postRequest["externalRequiredSkills"]);
+            postRequest["externalAdditionalSkills"] = flattenList(postRequest["externalAdditionalSkills"]);
+    
+            postRequest["competition"] = flattenMap(postRequest["competition"]);
+    
+            postRequest["status"] = "OPEN";
+    
+            var restHost = location.protocol + '//' + location.hostname;
+    
+            axios.post(restHost.concat(':8080/resources-service/resources/requests/create'), postRequest)
+                .then(response => {
+                    alert("Erfolgreich abgeschickt!");
+                })
+                .catch(e => {
+                  alert(e);
+                });
         } else {
-            alert("Speichern nicht möglich, bitte direkt veröffentlichen!");
+            if (localStorage) {
+                localStorage.setItem("request", JSON.stringify(this.request));
+                alert("Erfolgreich gesichert!");
+            } else {
+                alert("Speichern nicht möglich, bitte direkt veröffentlichen!");
+            }
         }
     },
-    publish: function(event) {
-
-        var postRequest = JSON.parse(JSON.stringify(this.request));
-
-        postRequest["requiredSkills"] = flattenList(postRequest["requiredSkills"]);
-        postRequest["additionalSkills"] = flattenList(postRequest["additionalSkills"]);
-        postRequest["candidates"] = flattenList(postRequest["candidates"]);
-        postRequest["externalRequiredSkills"] = flattenList(postRequest["externalRequiredSkills"]);
-        postRequest["externalAdditionalSkills"] = flattenList(postRequest["externalAdditionalSkills"]);
-
-        postRequest["competition"] = flattenMap(postRequest["competition"]);
-
-        postRequest["status"] = "OPEN";
-
-        var restHost = location.protocol + '//' + location.hostname;
-
-        axios.post(restHost.concat(':8080/resources-service/resources/requests/create'), postRequest)
-            .then(response => {
-                alert("Erfolgreich abgeschickt!");
-            })
-            .catch(e => {
-              alert(e);
-            });
+    onSubmit: function(event) {
+        this.save("publish");
     },
     clear: function(event) {
         event.preventDefault();

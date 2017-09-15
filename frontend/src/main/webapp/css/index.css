@@ -2,6 +2,10 @@ body {
     margin:1em;
 }
 
+#submitButton {
+    display:none;
+}
+
         .button-success,
         .button-error,
         .button-warning,
